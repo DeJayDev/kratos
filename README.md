@@ -2,7 +2,7 @@
 
 This repository contains the configuration for the Kratos server, including the services running on it and relevant DNS entries.
 
-The maintenance of Kratos, its services, and this repository is a collaborative effort between @DeJayDev and @xPolar.
+The maintenance of Kratos, its services, and this repository is a collaborative effort between [@DeJayDev](https://github.com/dejaydev) and [@xPolar](https://github.com/xpolar).
 
 ## Overview
 
