@@ -1,0 +1,8 @@
+scrape_configs:
+  - job_name: metrics-from-otel-collector
+    scheme: http
+    static_configs:
+      - targets:
+          - '172.17.0.1:8888'
+          - '172.17.0.1:8889'
+    metrics_path: /metrics
