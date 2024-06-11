@@ -1,5 +1,4 @@
 include:
   - ./auth/docker-compose.yml
-  - ./containers/docker-compose.yml
   - ./metrics/docker-compose.yml
   - ./web/npm/docker-compose.yml
