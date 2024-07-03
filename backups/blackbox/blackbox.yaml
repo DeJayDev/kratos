@@ -1,0 +1,33 @@
+databases:
+  postgres:
+    main_postgres:
+      username: blackbox
+      password: {{PGSQL_PASSWORD}}
+      host: 127.0.0.1
+      port: 5432
+  redis:
+    main_redis:
+      password: {{REDIS_PASSWORD}}
+      host: 127.0.0.1
+      port: 6379
+  mariadb:
+    main_mariadb:
+      username: blackbox
+      password: {{MYSQL_PASSWORD}}
+      host: 127.0.0.1
+      port: 3306
+
+storage:
+  s3:
+    backblaze:
+      bucket: {{B2_BUCKET}}
+      endpoint: {{B2_ENDPOINT}}
+      aws_access_key_id: {{B2_S3_ACCESS_KEY_ID}}
+      aws_secret_access_key: {{B2_S3_SECRET_ACCESS}}
+
+notifiers:
+  discord:
+    dejays_place:
+      webhook: {{DISCORD_WEBHOOK}}
+
+retention_days: 30
