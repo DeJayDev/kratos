@@ -1,10 +1,26 @@
 receivers:
+  hostmetrics:
+    scrapers:
+      load:
+      cpu:
+      disk:
+      filesystem:
+      memory:
+      network:
+      paging:
+      process:
   otlp:
     protocols:
       grpc:
         endpoint: 0.0.0.0:4310
       http:
         endpoint: 0.0.0.0:4311
+
+
+processors:
+  batch:
+    timeout: 10s
+
 
 exporters:
   debug:
@@ -16,7 +32,11 @@ exporters:
   prometheus:
     endpoint: 0.0.0.0:8889
 
-      
+  datadog:
+    api:
+      key: ${env:DD_API_KEY}
+
+
 service:
   telemetry:
     logs:
@@ -28,5 +48,10 @@ service:
       receivers: [otlp]
       exporters: [otlphttp]
     metrics:
-      receivers: [otlp]
+      receivers: [otlp, hostmetrics]
+      processors: [batch]
       exporters: [prometheus]
+    metrics_mirrored:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [datadog]

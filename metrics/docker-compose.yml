@@ -27,6 +27,7 @@ services:
   otel-collector:
     image: otel/opentelemetry-collector:latest
     command: [ "--config=/etc/otel-collector.yml" ]
+    env_file: ./collector.env
     ports:
       - 4310:4310 # Incoming OTel gRPC 
       - 4311:4311 # Incoming OTel HTTP (Proto/JSON)
@@ -51,6 +52,7 @@ services:
   grafana:
     image: grafana/grafana-oss
     restart: unless-stopped
+    env_file: ./grafana.env
     ports:
       - '3001:3000'
     volumes:
