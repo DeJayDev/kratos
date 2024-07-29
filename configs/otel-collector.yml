@@ -32,10 +32,6 @@ exporters:
   prometheus:
     endpoint: 0.0.0.0:8889
 
-  datadog:
-    api:
-      key: ${env:DD_API_KEY}
-
 
 service:
   telemetry:
@@ -51,7 +47,3 @@ service:
       receivers: [otlp, hostmetrics]
       processors: [batch]
       exporters: [prometheus]
-    metrics_mirrored:
-      receivers: [otlp]
-      processors: [batch]
-      exporters: [datadog]

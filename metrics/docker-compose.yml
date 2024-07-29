@@ -25,9 +25,8 @@ services:
       - init
 
   otel-collector:
-    image: otel/opentelemetry-collector:latest
+    image: otel/opentelemetry-collector-contrib:latest
     command: [ "--config=/etc/otel-collector.yml" ]
-    env_file: ./collector.env
     ports:
       - 4310:4310 # Incoming OTel gRPC 
       - 4311:4311 # Incoming OTel HTTP (Proto/JSON)
