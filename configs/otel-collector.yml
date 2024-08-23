@@ -20,7 +20,10 @@ receivers:
 processors:
   batch:
     timeout: 10s
-
+  resourcedetection/docker:
+    detectors: [env, docker]
+    timeout: 2s
+    override: false
 
 exporters:
   debug:
@@ -45,5 +48,5 @@ service:
       exporters: [otlphttp]
     metrics:
       receivers: [otlp, hostmetrics]
-      processors: [batch]
+      processors: [batch, resourcedetection/docker]
       exporters: [prometheus]
