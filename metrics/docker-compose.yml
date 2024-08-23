@@ -34,6 +34,7 @@ services:
       - 8889:8889 # Outgoing metrics from the Collector 
     volumes:
       - ../configs/otel-collector.yml:/etc/otel-collector.yml
+      - /:/hostfs:ro
     depends_on:
       - grafana
 

@@ -1,14 +1,15 @@
 receivers:
   hostmetrics:
     scrapers:
-      load:
       cpu:
       disk:
+      load:
       filesystem:
       memory:
       network:
       paging:
       process:
+    root_path: /hostfs
   otlp:
     protocols:
       grpc:
