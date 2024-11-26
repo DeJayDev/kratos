@@ -12,9 +12,9 @@ This repository is open source to serve as an educational resource, both for the
 
 ### License
 
-This project uses the MIT License, which allows you to freely use, copy, modify, and distribute the software for any purpose, with the condition that you include the original copyright notice and the MIT License text in your copies. 
+This project uses the MIT License, which allows you to freely use, copy, modify, and distribute the software for any purpose. 
 
-However, there are limitations: 
+However: 
   * You cannot hold the copyright holders liable for any issues.
   * You cannot remove or modify the MIT License text.
   * You cannot use the names of the copyright holders for endorsements without permission.
