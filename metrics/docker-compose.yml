@@ -33,7 +33,6 @@ services:
       - 8889:8889 # Outgoing metrics from the Collector 
     volumes:
       - ../configs/otel-collector.yml:/etc/otel-collector.yml
-      - /:/hostfs
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - grafana
@@ -58,12 +57,23 @@ services:
     depends_on:
       - prometheus
 
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command:
+      - --path.rootfs=/host
+    network_mode: host
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
+    depends_on:
+      - prometheus
+
   grafana:
     image: grafana/grafana-oss
     restart: unless-stopped
     env_file: ./grafana.env
-    environment:
-      - GF_INSTANCE_NAME=Kratos
     user: "10001:10001"
     ports:
       - '3001:3000'

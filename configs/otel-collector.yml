@@ -1,14 +1,4 @@
 receivers:
-  hostmetrics:
-    scrapers:
-      cpu:
-      disk:
-      load:
-      filesystem:
-      memory:
-      network:
-      paging:
-    root_path: /hostfs
   otlp:
     protocols:
       grpc:
@@ -47,6 +37,6 @@ service:
       receivers: [otlp]
       exporters: [otlphttp]
     metrics:
-      receivers: [otlp, hostmetrics]
+      receivers: [otlp]
       processors: [batch, resourcedetection/docker]
       exporters: [prometheus]
