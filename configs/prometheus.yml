@@ -12,6 +12,11 @@ scrape_configs:
     honor_labels: true
     static_configs:
       - targets: ['172.17.0.1:9091']
+    relabel_configs:
+      - source_labels: [job]
+        target_label: source
+        regex: unifiedmetrics
+        replacement: unifiedmetrics
   - job_name: upitmekuma
     static_configs:
       - targets: ['oracle:3001']
