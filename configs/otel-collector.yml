@@ -3,9 +3,6 @@ receivers:
     protocols:
       grpc:
         endpoint: 0.0.0.0:4310
-      http:
-        endpoint: 0.0.0.0:4311
-
 
 processors:
   batch:
@@ -19,12 +16,14 @@ exporters:
   debug:
     verbosity: detailed
 
-  otlphttp:
-    endpoint: http://tempo:4318
-
   prometheus:
     endpoint: 0.0.0.0:8889
 
+  otlphttp/tempo:
+    endpoint: http://tempo:4318
+
+  otlphttp/loki:
+    endpoint: http://loki:3100/otlp
 
 service:
   telemetry:
@@ -35,7 +34,11 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [otlphttp]
+      exporters: [otlphttp/tempo]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlphttp/loki]
     metrics:
       receivers: [otlp]
       processors: [batch, resourcedetection/docker]

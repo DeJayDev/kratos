@@ -1,6 +1,6 @@
 # Backups
 
-We store our compressed (and if possible, encrypted) backups on [Backblaze B2](https://www.backblaze.com/cloud-storage). All tools here are compatible with with any provider that has an S3 compatible API.
+We store our compressed (and if possible, encrypted) backups on [Cloudflare R2](https://www.cloudflare.com/developer-platform/products/r2/). All tools here are compatible with with any provider that has an S3 compatible API.
 
 ## Databases
 
@@ -9,6 +9,7 @@ Kratos services depend on any of the following databases:
 * [PostgreSQL](https://postgresql.org)
 * [MariaDB](https://mariadb.com/)
 * [KeyDB](https://keydb.dev)
+* [MongoDB](https://mongodb.com)
 
 To backup these services we use **blackbox** [lemonsaurus/blackbox](https://github.com/lemonsaurus/blackbox).
 
@@ -16,15 +17,13 @@ blackbox runs as it's own user, on the system and in each database.
 
 ### PostgreSQL
 
-Create a standard unprivilged user and enter the Postgres shell:
-
 ```bash
 $ sudo -i -u postgres
 $ createuser blackbox
 $ psql
 ```
 
-Then, from `psql` `GRANT` the built in `pg_read_all_data` role.
+Then, while still in `psql` `GRANT` the built-in role `pg_read_all_data`.
 
 ```sql
 GRANT pg_read_all_data TO blackbox;
@@ -53,10 +52,11 @@ FLUSH PRIVILEGES;
 
 ### KeyDB
 
-Using KeyDB instead of Redis, you will need to add a symlink from `keydb-cli` to `redis-cli`:
+If you are using KeyDB instead of Redis, you will need to add a symlink from `keydb-cli` to `redis-cli`:
 
 `sudo ln /usr/bin/keydb-cli /usr/bin/redis-cli`
 
 Define `requirepass` in `/etc/keydb/keydb.conf` if you have not already.
 
-Please be aware, if you were using KeyDB without auth services that previously depended on it will need this password. 
+> [!IMPORTANT]  
+> If you enabled `requirepass` while following this guide, and you were already using KeyDB/Redis, all of your services will need to be reconfigured with your KeyDB/Redis password.
