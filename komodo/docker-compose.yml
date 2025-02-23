@@ -35,8 +35,9 @@ services:
       PERIPHERY_SSL_CERT_FILE: /etc/komodo/ssl/cert.pem
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /proc:/proc
+      - /home:/host/home/
       - /etc/komodo:/etc/komodo
+      - /proc:/proc
 
 volumes:
   repo-cache:
