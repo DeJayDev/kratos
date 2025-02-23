@@ -12,5 +12,5 @@ services:
       - '81'
       - '443'
     volumes:
-      - ../.data/nginxproxymanager:/data
-      - ../.data/nginxproxymanager/letsencrypt:/etc/letsencrypt
+      - ../../.data/nginxproxymanager:/data
+      - ../../.data/nginxproxymanager/letsencrypt:/etc/letsencrypt

@@ -39,3 +39,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /proc:/proc
       - /etc/komodo:/etc/komodo
+
+volumes:
+  repo-cache:
+
