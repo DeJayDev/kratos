@@ -13,8 +13,6 @@ services:
     env_file: ./komodo.env
     environment:
       KOMODO_DATABASE_ADDRESS: 172.17.0.1:27017
-      KOMODO_DATABASE_USERNAME: ${KOMODO_DB_USERNAME}
-      KOMODO_DATABASE_PASSWORD: ${KOMODO_DB_PASSWORD}
     volumes:
       ## Core cache for repos for latest commit hash / contents
       - repo-cache:/repo-cache
