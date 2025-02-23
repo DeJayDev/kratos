@@ -1,0 +1,41 @@
+services:
+  core:
+    image: ghcr.io/mbecker20/komodo:latest
+    labels:
+      komodo.skip: # Prevent Komodo from stopping itself with StopAllContainers
+    restart: unless-stopped
+    logging:
+      driver: local
+    networks:
+      - default
+    ports:
+      - 9120:9120
+    env_file: ./komodo.env
+    environment:
+      KOMODO_DATABASE_ADDRESS: 172.17.0.1:27017
+      KOMODO_DATABASE_USERNAME: ${KOMODO_DB_USERNAME}
+      KOMODO_DATABASE_PASSWORD: ${KOMODO_DB_PASSWORD}
+    volumes:
+      ## Core cache for repos for latest commit hash / contents
+      - repo-cache:/repo-cache
+
+  periphery:
+    image: ghcr.io/mbecker20/periphery:latest
+    labels:
+      komodo.skip: # Prevent Komodo from stopping itself with StopAllContainers
+    restart: unless-stopped
+    logging:
+      driver: local
+    networks:
+      - default
+    env_file: ./komodo.env
+    environment:
+      PERIPHERY_REPO_DIR: /etc/komodo/repos
+      PERIPHERY_STACK_DIR: /etc/komodo/stacks
+      PERIPHERY_SSL_ENABLED: false
+      PERIPHERY_SSL_KEY_FILE: /etc/komodo/ssl/key.pem
+      PERIPHERY_SSL_CERT_FILE: /etc/komodo/ssl/cert.pem
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /proc:/proc
+      - /etc/komodo:/etc/komodo
