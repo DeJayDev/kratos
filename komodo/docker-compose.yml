@@ -1,6 +1,6 @@
 services:
   core:
-    image: ghcr.io/mbecker20/komodo:latest
+    image: ghcr.io/moghtech/komodo:latest
     labels:
       komodo.skip: # Prevent Komodo from stopping itself with StopAllContainers
     restart: unless-stopped
@@ -18,7 +18,7 @@ services:
       - repo-cache:/repo-cache
 
   periphery:
-    image: ghcr.io/mbecker20/periphery:latest
+    image: ghcr.io/moghtech/periphery:latest
     labels:
       komodo.skip: # Prevent Komodo from stopping itself with StopAllContainers
     restart: unless-stopped
