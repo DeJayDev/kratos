@@ -2,7 +2,7 @@ services:
   pushgateway:
     image: prom/pushgateway
     ports:
-      - 9091:9091
+      - 127.0.0.1:9091:9091
     depends_on:
       - prometheus
 
@@ -26,7 +26,7 @@ services:
       - --web.enable-remote-write-receiver
     user: "10001:10001"
     ports:
-      - 9090:9090
+      - 127.0.0.1:9090:9090
     volumes:
       - ../configs/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ../.data/prometheus:/prometheus
@@ -36,7 +36,7 @@ services:
     command: [ "-config.file=/etc/loki/local-config.yaml" ]
     user: "10001:10001"
     ports:
-      - 3100:3100
+      - 127.0.0.1:3100:3100
     restart: unless-stopped
     volumes:
       - ../configs/loki.yml:/etc/loki/local-config.yaml
@@ -52,8 +52,8 @@ services:
       - ../configs/tempo.yml:/etc/tempo.yml
       - ../.data/tempo:/var/tempo
     ports:
-      - 3200:3200 # tempo
-      - 4318:4318 # otlp grpc
+      - 127.0.0.1:3200:3200 # tempo
+      - 127.0.0.1:4318:4318 # otlp grpc
 
   grafana:
     image: grafana/grafana-oss:latest
@@ -61,7 +61,7 @@ services:
     env_file: ./grafana.env
     user: "10001:10001"
     ports:
-      - 3001:3000
+      - 127.0.0.1:3001:3000
     volumes:
       - ../.data/grafana:/var/lib/grafana
     depends_on:
@@ -73,10 +73,10 @@ services:
     command:
       - --config=/etc/otel-collector.yml
     ports:
-      - 4310:4310 # Incoming OTel gRPC 
-      - 4311:4311 # Incoming OTel HTTP (Proto/JSON)
-      - 8888:8888 # Outgoing metrics about the Collector (Diagnostic)
-      - 8889:8889 # Outgoing metrics from the Collector 
+      - 127.0.0.1:4310:4310 # Incoming OTel gRPC 
+      - 127.0.0.1:4311:4311 # Incoming OTel HTTP (Proto/JSON)
+      - 127.0.0.1:8888:8888 # Outgoing metrics about the Collector (Diagnostic)
+      - 127.0.0.1:8889:8889 # Outgoing metrics from the Collector 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ../configs/otel-collector.yml:/etc/otel-collector.yml
