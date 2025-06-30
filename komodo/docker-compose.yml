@@ -1,5 +1,5 @@
 services:
-  core:
+  komodo:
     image: ghcr.io/moghtech/komodo:latest
     labels:
       komodo.skip: # Prevent Komodo from stopping itself with StopAllContainers
