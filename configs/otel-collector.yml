@@ -30,7 +30,12 @@ service:
     logs:
       level: "info"
     metrics:
-      address: ":8888"
+      readers:
+        - periodic:
+            exporter:
+              otlp:
+                protocol: http/protobuf
+                endpoint: http://172.17.0.1:8889
   pipelines:
     traces:
       receivers: [otlp]

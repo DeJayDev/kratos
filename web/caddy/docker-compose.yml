@@ -1,0 +1,14 @@
+services:
+  caddy:
+    build: .
+    image: kratos-caddy:local
+    restart: unless-stopped
+    network_mode: host
+    command: ["caddy", "docker-proxy"]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ../../.data/caddy/data:/data
+      - ../../.data/caddy/config:/config
+    environment:
+      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN:-}
+      TS_AUTHKEY: ${TS_AUTHKEY:-}

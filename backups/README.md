@@ -7,8 +7,8 @@ We store our compressed (and if possible, encrypted) backups on [Cloudflare R2](
 Kratos services depend on any of the following databases:
 
 * [PostgreSQL](https://postgresql.org)
-* [MariaDB](https://mariadb.com/)
-* [KeyDB](https://keydb.dev)
+* [MariaDB](https://mariadb.com)
+* [Valkey](https://valkey.io)
 * [MongoDB](https://mongodb.com)
 
 To backup these services we use **blackbox** [lemonsaurus/blackbox](https://github.com/lemonsaurus/blackbox).
@@ -50,6 +50,14 @@ GRANT SHOW VIEW ON *.* TO 'blackbox'@'localhost';
 FLUSH PRIVILEGES;
 ``` 
 
+### Valkey
+
+If you are using Valkey instead of Redis, you will need to install `valkey-redis-compat`:
+
+`sudo apt-get install valkey-redis-compat`
+
+Define `requirepass` in `/etc/valkey/valkey.conf` if you have not already.
+
 ### KeyDB
 
 If you are using KeyDB instead of Redis, you will need to add a symlink from `keydb-cli` to `redis-cli`:
@@ -59,4 +67,4 @@ If you are using KeyDB instead of Redis, you will need to add a symlink from `ke
 Define `requirepass` in `/etc/keydb/keydb.conf` if you have not already.
 
 > [!IMPORTANT]  
-> If you enabled `requirepass` while following this guide, and you were already using KeyDB/Redis, all of your services will need to be reconfigured with your KeyDB/Redis password.
+> If you enabled `requirepass` while following this guide, and you were already using Valkey/KeyDB/Redis, all of your services will need to be reconfigured with your Valkey/KeyDB/Redis password.

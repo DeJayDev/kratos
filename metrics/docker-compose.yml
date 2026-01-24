@@ -70,15 +70,15 @@ services:
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:latest
-    command:
-      - --config=/etc/otel-collector.yml
+    command: [ "--config=/etc/otel-collector.yml" ]
+    user: "10001:999"
     ports:
       - 127.0.0.1:4310:4310 # Incoming OTel gRPC 
       - 127.0.0.1:4311:4311 # Incoming OTel HTTP (Proto/JSON)
       - 127.0.0.1:8888:8888 # Outgoing metrics about the Collector (Diagnostic)
       - 127.0.0.1:8889:8889 # Outgoing metrics from the Collector 
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       - ../configs/otel-collector.yml:/etc/otel-collector.yml
     depends_on:
       - grafana

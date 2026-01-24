@@ -16,25 +16,13 @@ services:
       POSTGRES_USER: ${PG_USER:-authentik}
       POSTGRES_DB: ${PG_DB:-authentik}
     env_file:
-      - .env
-  auth_keydb:
-    image: eqalpha/keydb:alpine
-    command: --save 60 1 --loglevel warning
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "keydb-cli ping | grep PONG"]
-      start_period: 20s
-      interval: 30s
-      retries: 5
-      timeout: 3s
-    volumes:
-      - keydb:/data
+      - auth.env
   auth_server:
-    image: ghcr.io/goauthentik/server:2024.10.4
+    image: ghcr.io/goauthentik/server:2025.12.1
     restart: unless-stopped
     command: server
     environment:
-      AUTHENTIK_REDIS__HOST: auth_keydb
+      AUTHENTIK_REDIS__HOST: 172.17.0.1
       AUTHENTIK_POSTGRESQL__HOST: auth_psql
       AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
       AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
@@ -44,19 +32,18 @@ services:
       - ../.data/authentik/media:/media
       - ../.data/authentik/custom-templates:/templates
     env_file:
-      - .env
+      - auth.env
     ports:
       - "9000:9000"
       - "9443:9443"
     depends_on:
       - auth_psql
-      - auth_keydb
   auth_worker:
-    image: ghcr.io/goauthentik/server:2024.10.4
+    image: ghcr.io/goauthentik/server:2025.12.1
     restart: unless-stopped
     command: worker
     environment:
-      AUTHENTIK_REDIS__HOST: auth_keydb
+      AUTHENTIK_REDIS__HOST: 172.17.0.1
       AUTHENTIK_POSTGRESQL__HOST: auth_psql
       AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
       AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
@@ -67,13 +54,10 @@ services:
       - ../.data/authentik/certs:/certs
       - ../.data/authentik/custom-templates:/templates
     env_file:
-      - .env
+      - auth.env
     depends_on:
       - auth_psql
-      - auth_keydb
 
 volumes:
   database:
-    driver: local
-  keydb:
     driver: local
