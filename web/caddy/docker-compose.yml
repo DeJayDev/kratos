@@ -4,10 +4,9 @@ services:
     image: kratos-caddy:local
     restart: unless-stopped
     network_mode: host
-    command: ["caddy"]
+    command: ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
     env_file:
       - ./caddy.env
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
       - ../../.data/caddy/data:/data
-      - ../../.data/caddy/config:/etc/caddy
+      - ./config:/etc/caddy:ro
