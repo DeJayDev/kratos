@@ -4,9 +4,13 @@ services:
     image: kratos-caddy:local
     restart: unless-stopped
     network_mode: host
-    command: ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
+    command: ["caddy", "run", "--config", "/config/caddy/Caddyfile", "--adapter", "caddyfile"]
     env_file:
       - ./caddy.env
     volumes:
       - ../../.data/caddy/data:/data
-      - ./config:/etc/caddy:ro
+      - ../../.data/caddy/data/log:/var/log/caddy
+      - ../../.data/caddy/config:/config
+      # Host service integration (php-fpm socket + app files)
+      - /run/php:/run/php
+      - /var/www/pterodactyl:/var/www/pterodactyl:ro
